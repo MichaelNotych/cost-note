@@ -1,0 +1,52 @@
+:root {
+	--primary-background: #fff;
+	--secondary-background: #f9f9fa;
+	--stroke-color: #c6c9cd;
+	--text-color: #17113b;
+	--accent-color: #6341e1;
+	--accent-text-color: #fff;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	margin: 0;
+	font-size: 1.125rem;
+	line-height: 1.5;
+	color: var(--text-color);
+	background-color: var(--primary-background);
+	font-family: 'Open Sans', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings: 'wdth' 100;
+}
+
+button {
+	cursor: pointer;
+	font: inherit;
+}
+
+a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+	margin: 0;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
