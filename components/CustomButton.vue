@@ -9,7 +9,7 @@ const props = defineProps({
 		default: false,
 	},
 	variant: {
-		type: String as PropType<'primary' | 'secondary'>,
+		type: String as PropType<'primary' | 'secondary' | 'outline'>,
 		default: 'primary',
 	},
 	type: {
@@ -25,12 +25,20 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
+	size: {
+		type: String as PropType<'small' | 'medium' | 'large'>,
+		default: 'medium',
+	},
 });
 
 const emit = defineEmits(['click']);
+
+const extraClasses = [`cn_button_${props.variant}`, `cn_button_${props.size}`];
+
+
 </script>
 <template>
-	<button class="cn_button" :class="{ 'cn_button_secondary': props.variant === 'secondary' }" :disabled="props.disabled || props.isLoading" :type="props.type" @click="emit('click')">
+	<button class="cn_button" :class="extraClasses.join(' ')" :disabled="props.disabled || props.isLoading" :type="props.type" @click="emit('click')">
 		<component :is="props.icon" v-if="props.icon" />
 		{{ props.label }}
 	</button>
@@ -46,7 +54,8 @@ const emit = defineEmits(['click']);
 	justify-content: center;
 	align-items: center;
 	gap: 0.5rem;
-	transition: background-color 0.2s ease-in-out;
+	cursor: pointer;
+	transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .cn_button:hover {
@@ -61,5 +70,20 @@ const emit = defineEmits(['click']);
 
 .cn_button_secondary:hover {
 	background-color: var(--secondary-background);
+}
+
+.cn_button_outline {
+	background-color: var(--primary-background);
+	color: var(--accent-color);
+	border: 1px solid var(--accent-color);
+}
+
+.cn_button_outline:hover {
+	color: var(--accent-text-color);
+}
+
+.cn_button_small {
+	padding: 0.5em 1em;
+	font-size: 1rem;
 }
 </style>
