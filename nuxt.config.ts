@@ -16,5 +16,7 @@ export default defineNuxtConfig({
 		},
 	},
 	css: ['~/assets/main.css'],
-
+	runtimeConfig: {
+		MONGO_URI: process.env.MONGO_URI,
+	},
 });
