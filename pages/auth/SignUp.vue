@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import AuthInput from '~/components/AuthInput.vue';
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
+
+definePageMeta({ layout: 'auth' });
+
 const { loggedIn, user, session, fetch: fetchUserSession, clear } = useUserSession();
 
 const form = reactive({
@@ -77,48 +80,30 @@ const handleGoogleSignUp = () => {
 }
 </script>
 <template>
-	<section class="cn_layout">
-		<div class="cn_col">
-			<AuthBanner />
+	<div class="cn_auth">
+		<div class="cn_title">Sign Up</div>
+		<form class="cn_form" @submit.prevent="handleSubmit">
+			<AuthInput v-model="form.name" label="Name" :is-valid="form.isValidName" @update:value="form.name = $event" />	
+			<AuthInput v-model="form.email" label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
+			<AuthInput v-model="form.password" label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
+			<AuthInput v-model="form.repeatPassword" label="Repeat Password" :is-valid="form.isValidRepeatPassword" @update:value="form.repeatPassword = $event" />
+			<CustomButton label="Sign Up" :disabled="!form.isFormValid" :is-loading="form.isLoading" />
+			<hr class="cn_divider">
+			<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignUp" />
+		</form>
+		<div class="cn_hint">
+			<span>Already have an account?</span>
+			<NuxtLink to="/auth/signin">Sign In</NuxtLink>
 		</div>
-		<div class="cn_col cn_col_form">
-			<div class="cn_title">Sign Up</div>
-			<form class="cn_form" @submit.prevent="handleSubmit">
-				<AuthInput v-model="form.name" label="Name" :is-valid="form.isValidName" @update:value="form.name = $event" />	
-				<AuthInput v-model="form.email" label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
-				<AuthInput v-model="form.password" label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
-				<AuthInput v-model="form.repeatPassword" label="Repeat Password" :is-valid="form.isValidRepeatPassword" @update:value="form.repeatPassword = $event" />
-				<CustomButton label="Sign Up" :disabled="!form.isFormValid" :is-loading="form.isLoading" />
-				<hr class="cn_divider">
-				<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignUp" />
-			</form>
-			<div class="cn_hint">
-				<span>Already have an account?</span>
-				<NuxtLink to="/auth/signin">Sign In</NuxtLink>
-			</div>
-		</div>
-	</section>
+	</div>
 </template>
 <style scoped>
-.cn_layout {
-	display: flex;
-	gap: 1.25rem;
-	height: 100vh;
-	padding: 2.5rem;
-	min-height: 40rem;
-}
-
-.cn_col {
-	width: 50%;
-	height: 100%;
-}
-
-.cn_col_form {
+.cn_auth {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 2.5rem;
 	gap: 2.5rem;
 }
 
