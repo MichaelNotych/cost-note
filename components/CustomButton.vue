@@ -21,12 +21,16 @@ const props = defineProps({
 		required: false,
 		default: null,
 	},
+	isLoading: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const emit = defineEmits(['click']);
 </script>
 <template>
-	<button class="cn_button" :class="{ 'cn_button_secondary': props.variant === 'secondary' }" :disabled="props.disabled" :type="props.type" @click="emit('click')">
+	<button class="cn_button" :class="{ 'cn_button_secondary': props.variant === 'secondary' }" :disabled="props.disabled || props.isLoading" :type="props.type" @click="emit('click')">
 		<component :is="props.icon" v-if="props.icon" />
 		{{ props.label }}
 	</button>
