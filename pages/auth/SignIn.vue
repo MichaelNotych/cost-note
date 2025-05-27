@@ -32,12 +32,8 @@ const handleGoogleSignIn = () => {
 </script>
 <template>
 	<section class="cn_layout">
-		<div class="cn_col cn_col_banner">
-			<div class="cn_logo">Cost<span>Note</span></div>
-			<p>
-				A minimalistic expense tracker with built-in AI features for analysing your&nbsp;payments
-			</p>
-			<img class="cn_banner" src="~/assets/images/banner.png" alt="CostNote">
+		<div class="cn_col">
+			<AuthBanner />
 		</div>
 		<div class="cn_col cn_col_form">
 			<div class="cn_title">Sign In</div>
@@ -70,15 +66,6 @@ const handleGoogleSignIn = () => {
 	height: 100%;
 }
 
-.cn_col_banner {
-	border-radius: 1rem;
-	border: 1px solid var(--stroke-color);
-	padding: 2.5rem 2.5rem 0;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
 .cn_col_form {
 	display: flex;
 	flex-direction: column;
@@ -86,24 +73,6 @@ const handleGoogleSignIn = () => {
 	justify-content: center;
 	padding: 2.5rem;
 	gap: 2.5rem;
-}
-
-.cn_logo {
-	font-size: 4.5rem;
-	font-weight: 700;
-	margin-bottom: 1.25rem;
-}
-
-.cn_logo span {
-	font-weight: 400;
-}
-
-.cn_banner {
-	max-width: 475px;
-	width: 100%;
-	height: auto;
-	object-fit: contain;
-	margin-top: auto;
 }
 
 .cn_title {
