@@ -4,6 +4,7 @@
 	--stroke-color: #c6c9cd;
 	--text-color: #17113b;
 	--accent-color: #6341e1;
+	--accent-hover-color: #462da2;
 	--accent-text-color: #fff;
 }
 
@@ -36,6 +37,11 @@ button {
 a {
 	color: inherit;
 	text-decoration: inherit;
+	transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+	color: var(--accent-color);
 }
 
 h1,
