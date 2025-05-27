@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AuthInput from '~/components/AuthInput.vue';
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
+const { fetch: fetchUserSession } = useUserSession();
 
 definePageMeta({ layout: 'auth' });
 
@@ -37,6 +38,8 @@ const handleSubmit = async () => {
 			method: 'POST',
 			body: { email: form.email, password: form.password },
 		});
+
+		await fetchUserSession();
 
 		navigateTo('/dashboard');
 
