@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AuthInput from '~/components/AuthInput.vue';
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
+const { loggedIn, user, session, fetch: fetchUserSession, clear } = useUserSession();
 
 const form = reactive({
 	name: '',
@@ -36,8 +37,40 @@ const form = reactive({
 		return form.isValidName(form.name).isValid && form.isValidEmail(form.email).isValid && form.isValidPassword(form.password).isValid && form.isValidRepeatPassword(form.repeatPassword).isValid;
 	}),
 });
-const handleSubmit = () => {
-	console.log('submit');
+const handleSubmit = async () => {
+	if (!form.isFormValid) {
+		alert('Please fill in all fields');
+		return;
+	}
+
+	try {
+		form.isLoading = true;
+		await $fetch('/api/signup', {
+			method: 'POST',
+			body: { name: form.name, email: form.email, password: form.password },
+		});
+
+		await fetchUserSession();
+
+		console.log(user);
+		console.log(session);
+
+		// toast.add({
+		// 	title: 'Success',
+		// 	description: 'You have been signed up',
+		// 	color: 'success',
+		// });
+	} catch (error) {
+		console.log(error);
+
+		// toast.add({
+		// 	title: 'Error',
+		// 	description: error instanceof Error ? error.message : 'An error occurred during sign up',
+		// 	color: 'error',
+		// });
+	} finally {
+		form.isLoading = false;
+	}
 };
 const handleGoogleSignUp = () => {
 	console.log('google');
@@ -55,7 +88,7 @@ const handleGoogleSignUp = () => {
 				<AuthInput v-model="form.email" label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
 				<AuthInput v-model="form.password" label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
 				<AuthInput v-model="form.repeatPassword" label="Repeat Password" :is-valid="form.isValidRepeatPassword" @update:value="form.repeatPassword = $event" />
-				<CustomButton label="Sign Up" :disabled="!form.isFormValid" />
+				<CustomButton label="Sign Up" :disabled="!form.isFormValid" :is-loading="form.isLoading" />
 				<hr class="cn_divider">
 				<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignUp" />
 			</form>
@@ -67,4 +100,49 @@ const handleGoogleSignUp = () => {
 	</section>
 </template>
 <style scoped>
+.cn_layout {
+	display: flex;
+	gap: 1.25rem;
+	height: 100vh;
+	padding: 2.5rem;
+	min-height: 40rem;
+}
+
+.cn_col {
+	width: 50%;
+	height: 100%;
+}
+
+.cn_col_form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 2.5rem;
+	gap: 2.5rem;
+}
+
+.cn_title {
+	font-size: 2.5rem;
+	font-weight: 700;
+}
+
+.cn_form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.cn_divider {
+	width: 100%;
+    height: 1px;
+    background-color: var(--stroke-color);
+    margin: 2rem 0;
+    opacity: 0.5;
+}
+
+.cn_hint {
+	display: flex;
+	gap: 0.5rem;
+}
 </style>
