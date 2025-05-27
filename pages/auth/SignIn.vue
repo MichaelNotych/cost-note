@@ -25,8 +25,37 @@ const form = reactive({
 	}),
 });
 
-const handleSubmit = () => {
-	console.log('submit');
+const handleSubmit = async () => {
+	if (!form.isFormValid) {
+		alert('Please fill in all fields');
+		return;
+	}
+
+	try {
+		form.isLoading = true;
+		await $fetch('/api/signin', {
+			method: 'POST',
+			body: { email: form.email, password: form.password },
+		});
+
+		navigateTo('/dashboard');
+
+		// toast.add({
+		// 	title: 'Success',
+		// 	description: 'You have been signed up',
+		// 	color: 'success',
+		// });
+	} catch (error) {
+		console.log(error);
+
+		// toast.add({
+		// 	title: 'Error',
+		// 	description: error instanceof Error ? error.message : 'An error occurred during sign up',
+		// 	color: 'error',
+		// });
+	} finally {
+		form.isLoading = false;
+	}
 };
 const handleGoogleSignIn = () => {
 	console.log('google');
