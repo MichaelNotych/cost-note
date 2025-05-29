@@ -13,7 +13,5 @@ const { user } = useUserSession();
 	</div>
 </template>
 <style scoped>
-.cn-container {
-	max-width: 60rem;
-}
+
 </style>
