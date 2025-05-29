@@ -1,27 +1,19 @@
 <script setup lang="ts">
 definePageMeta({
 	middleware: 'auth',
+	layout: 'dashboard',
 });
 
-const { user, clear } = useUserSession();
-
-const logout = async () => {
-	await clear();
-	navigateTo('/auth/signin');
-};
+const { user } = useUserSession();
 </script>
 
 <template>
-	<div class="cn_dashboard">
+	<div class="cn-container">
 		<h1>Welcome to Dashboard, <span v-if="user">{{ user.name }}</span></h1>
-		<CustomButton label="Logout" variant="primary" type="button" size="small" @click="logout"/>
 	</div>
 </template>
 <style scoped>
-.cn_dashboard {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+.cn-container {
+	max-width: 60rem;
 }
 </style>
