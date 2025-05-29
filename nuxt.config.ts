@@ -18,4 +18,12 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		MONGO_URI: process.env.MONGO_URI,
 	},
+	experimental: {
+		defaults: {
+		  nuxtLink: {
+			// default values
+			activeClass: 'cn-link_active',
+		  }
+		}
+	  }
 });
