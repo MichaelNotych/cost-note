@@ -116,6 +116,7 @@ const handleGoogleSignUp = () => {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+	gap: 1.25rem;
 }
 
 .cn_divider {

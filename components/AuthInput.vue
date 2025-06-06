@@ -27,7 +27,7 @@ watch(() => input.value, (newVal) => {
 	<div class="cn_input">
 		<input v-model="input.value" class="cn_input__input" :class="{ 'cn_input__input--empty': input.isInputEmpty }" @blur="input.isTouched = true">
 		<label class="cn_input__label">{{ label }}</label>
-		<span v-if="!input.validation.isValid && input.isTouched" class="cn_input__warning">{{ input.validation.error }}</span>
+		<span v-if="!input.validation.isValid && input.validation.error && input.isTouched" class="cn_input__warning">{{ input.validation.error }}</span>
 	</div>
 </template>
 <style scoped>
@@ -36,7 +36,7 @@ watch(() => input.value, (newVal) => {
 	flex-direction: column;
     gap: 0.125rem;
     position: relative;
-	padding-bottom: 1.25rem;
+	width: 100%;
 }
 .cn_input__label {
 	font-family: inherit;

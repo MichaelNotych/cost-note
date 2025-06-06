@@ -98,6 +98,7 @@ const handleGoogleSignIn = () => {
 .cn_form {
 	display: flex;
 	flex-direction: column;
+	gap: 1.25rem;
 	width: 100%;
 }
 
