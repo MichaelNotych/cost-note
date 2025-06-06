@@ -15,7 +15,7 @@ const { user } = useUserSession();
 		<div class="cn-auth">
 			<NuxtLink v-if="!user" to="/auth/signin" class="cn-link cn-link_secondary">Sign in</NuxtLink>
 			<NuxtLink v-if="!user" to="/auth/signup" class="cn-link cn-link_primary">Sign up</NuxtLink>
-			<NuxtLink v-else to="/auth/logout" class="cn-link">Logout</NuxtLink>
+			<NuxtLink v-else to="/auth/logout" class="cn-link"><span style="opacity: 0.5;">[ {{ user.name }} ]</span> Logout</NuxtLink>
 		</div>
 	</header>
 </template>
