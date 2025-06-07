@@ -19,3 +19,11 @@ export interface IExpense {
 }
 
 export type Expense = Document & IExpense;
+
+export interface IRate {
+	_id: string;
+	rates: string;
+	date: Date;
+}
+
+export type Rate = Document & IRate;

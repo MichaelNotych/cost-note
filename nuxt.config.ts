@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
 	compatibilityDate: '2025-05-15',
 	devtools: { enabled: true },
-	modules: ['@nuxt/eslint', 'nuxt-auth-utils'],
+	modules: ['@nuxt/eslint', 'nuxt-auth-utils', 'nuxt-cron'],
 	app: {
 		head: {
 			link: [
@@ -18,6 +18,7 @@ export default defineNuxtConfig({
 	runtimeConfig: {
 		MONGO_URI: process.env.MONGO_URI,
 		GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
+		EXCHANGE_RATE_API_KEY: process.env.EXCHANGE_RATE_API_KEY,
 	},
 	experimental: {
 		defaults: {
@@ -27,4 +28,7 @@ export default defineNuxtConfig({
 			},
 		},
 	},
+	// cron: {
+	// 	runOnInit: true,
+	// }
 });
