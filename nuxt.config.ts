@@ -17,6 +17,7 @@ export default defineNuxtConfig({
 	css: ['~/assets/main.css'],
 	runtimeConfig: {
 		MONGO_URI: process.env.MONGO_URI,
+		GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
 	},
 	experimental: {
 		defaults: {

@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@google/genai": "^1.2.0",
     "@nuxt/eslint": "^1.4.1",
     "eslint": "^9.27.0",
     "mongoose": "^8.15.1",

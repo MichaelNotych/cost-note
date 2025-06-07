@@ -3,16 +3,13 @@
 <template>
 	<main class="cn-main">
 		<CustomHeader />
-		<div class="cn-dashboard">
-			<slot />
-		</div>
+		<slot />
 	</main>
 </template>
 <style scoped>
-.cn-dashboard {
+.cn-main {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	height: 100vh;
 }
 </style>
