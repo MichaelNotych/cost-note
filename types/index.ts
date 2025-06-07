@@ -7,6 +7,11 @@ export interface User {
 	password: string;
 }
 
+interface IDefaultCurrencyExpense {
+	amount: number;
+	currency: string;
+}
+
 export interface IExpense {
 	_id: string;
 	title?: string;
@@ -16,6 +21,7 @@ export interface IExpense {
 	date: Date;
 	userDescription: string;
 	user: string;
+	defaultCurrency?: IDefaultCurrencyExpense;
 }
 
 export type Expense = Document & IExpense;

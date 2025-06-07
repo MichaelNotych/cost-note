@@ -1,11 +1,24 @@
 <script setup lang="ts">
 import IconArrowRight from './icons/IconArrowRight.vue';
+import { DEFAULT_CURRENCY } from '~/constants';
 import type { IExpense } from '~/types';
 
 const expenses = ref<IExpense[]>([]);
+const expensesToAwait = ref<string[]>([]);
+const dailyExpenses = ref<number>(0);
 
 onMounted(async () => {
 	await fetchExpenses();
+});
+
+watch(expensesToAwait, async () => {
+	setTimeout(async () => {
+		await fetchExpenses();
+	}, 5000);
+});
+
+watch(expenses, async () => {
+	dailyExpenses.value = expenses.value.reduce((acc, expense) => acc + (expense.defaultCurrency ? expense.defaultCurrency.amount : 0), 0);
 });
 
 const form = reactive({
@@ -32,6 +45,7 @@ const addExpense = async () => {
 	expenses.value.push(response);
 
 	form.expense = '';
+	expensesToAwait.value = [...expensesToAwait.value, response._id];
 }
 </script>
 <template>
@@ -39,14 +53,11 @@ const addExpense = async () => {
 		<div class="cn-title cn-title_sm">Total today spent</div>
 		<div class="cn-panel__money">
 			<div class="cn-panel__currency">
-				$
+				{{ DEFAULT_CURRENCY }}
 			</div>
 			<div class="cn-panel__amount">
-				6.13
+				{{ dailyExpenses }}
 			</div>
-		</div>
-		<div class="cn-panel__categories">
-			<span>Category:</span> All
 		</div>
 		<ul class="cn-panel__expenses">
 			<ExpenseItem v-for="expense in expenses" :key="expense._id" :expense="expense" />
@@ -82,10 +93,6 @@ const addExpense = async () => {
 
 .cn-panel__amount {
 	font-size: 4rem;
-}
-
-.cn-panel__categories {
-	margin-bottom: 1.125rem;
 }
 
 .cn-panel__expenses {

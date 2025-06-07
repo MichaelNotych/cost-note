@@ -1,6 +1,16 @@
 import { Schema, model } from "mongoose";
 import type { Expense as ExpenseType } from "~/types";
 
+const DefaultCurrencyExpenseSchema = new Schema({
+	amount: {
+		type: Number,
+		required: true,
+	},
+	currency: {
+		type: String,
+		required: true,
+	},
+}, { versionKey: false });
 
 const ExpenseSchema = new Schema({
 	title: {
@@ -32,6 +42,10 @@ const ExpenseSchema = new Schema({
 		ref: "User",
 		required: true,
 	},
+	defaultCurrency: {
+		type: DefaultCurrencyExpenseSchema,
+		required: false,
+	}
 }, { versionKey: false });
 
 export const Expense = model<ExpenseType>("Expense", ExpenseSchema);

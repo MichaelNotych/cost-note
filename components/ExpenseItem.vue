@@ -10,20 +10,14 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="expense.title" class="cn-expense">
+  <div class="cn-expense">
+    <div v-if="!expense.defaultCurrency" class="cn-expense__loader"/>
     <div class="cn-expense__info">
       <div class="cn-expense__title">{{ expense.title }}</div>
-      <div class="cn-expense__category">*category*</div>
     </div>
-    <div class="cn-expense__amounts">
+    <div v-if="expense.defaultCurrency" class="cn-expense__amounts">
       <div class="cn-expense__amount">{{ expense.amount }} {{ expense.currency }}</div>
-      <div class="cn-expense__converted">*convertedAmount*</div>
-    </div>
-  </div>
-  <div v-else class="cn-expense">
-    <div class="cn-expense__loader"/>
-    <div class="cn-expense__info">
-      <div class="cn-expense__title">{{ expense.userDescription }}</div>
+      <div class="cn-expense__converted">{{ expense.defaultCurrency.amount }} {{ expense.defaultCurrency.currency }}</div>
     </div>
   </div>
 </template>
@@ -51,7 +45,6 @@ defineProps({
   font-weight: 600;
 }
 
-.cn-expense__category,
 .cn-expense__converted {
   font-size: 0.875rem;
   opacity: 0.5;
