@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import { User } from "../models/user.model";
 
 export default defineEventHandler(async (event) => {
@@ -17,7 +16,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	// compare password
-	const isPasswordValid = await bcrypt.compare(password, user.password);
+	const isPasswordValid = await verifyPassword(user.password, password);
 
 	if (!isPasswordValid) {
 		throw createError({

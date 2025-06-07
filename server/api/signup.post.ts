@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import { User } from "../models/user.model";
 
 export default defineEventHandler(async (event) => {
@@ -17,7 +16,7 @@ export default defineEventHandler(async (event) => {
 	}
 
 	// hash password
-	const hashedPassword = await bcrypt.hash(password, 10);
+	const hashedPassword = await hashPassword(password);
 
 	// create user
 	const newUser = await User.create({ name, email, password: hashedPassword });
