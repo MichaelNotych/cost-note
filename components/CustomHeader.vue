@@ -12,10 +12,13 @@ const { user } = useUserSession();
 			<NuxtLink to="/logs" class="cn-link">Logs</NuxtLink>
 			<NuxtLink to="/settings" class="cn-link">Settings</NuxtLink>
 		</nav>
-		<div class="cn-auth">
-			<NuxtLink v-if="!user" to="/auth/signin" class="cn-link cn-link_secondary">Sign in</NuxtLink>
-			<NuxtLink v-if="!user" to="/auth/signup" class="cn-link cn-link_primary">Sign up</NuxtLink>
-			<NuxtLink v-else to="/auth/logout" class="cn-link"><span style="opacity: 0.5;">[ {{ user.name }} ]</span> Logout</NuxtLink>
+		<div v-if="!user" class="cn-auth">
+			<NuxtLink to="/auth/signin" class="cn-link cn-link_secondary">Sign in</NuxtLink>
+			<NuxtLink to="/auth/signup" class="cn-link cn-link_primary">Sign up</NuxtLink>
+		</div>
+		<div v-else class="cn-auth">
+			<NuxtLink to="/dashboard/profile" class="cn-link"><span style="opacity: 0.5;">[ {{ user.name }} ]</span></NuxtLink>
+			<NuxtLink to="/auth/logout" class="cn-link">Logout</NuxtLink>
 		</div>
 	</header>
 </template>
@@ -60,6 +63,6 @@ const { user } = useUserSession();
 .cn-auth {
 	display: flex;
 	align-items: center;
-	gap: 2rem;
+	gap: 1rem;
 }
 </style>
