@@ -15,6 +15,6 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
-});
+}, { versionKey: false });
 
 export const User = model<UserType>("User", UserSchema);
