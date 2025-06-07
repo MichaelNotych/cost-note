@@ -4,7 +4,8 @@ import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
 
 definePageMeta({ layout: 'auth' });
 
-const { loggedIn, user, session, fetch: fetchUserSession, clear } = useUserSession();
+const { fetch: fetchUserSession } = useUserSession();
+const router = useRouter();
 
 const form = reactive({
 	name: '',
@@ -55,8 +56,7 @@ const handleSubmit = async () => {
 
 		await fetchUserSession();
 
-		console.log(user);
-		console.log(session);
+		await router.push('/dashboard');
 
 		// toast.add({
 		// 	title: 'Success',
@@ -83,10 +83,10 @@ const handleGoogleSignUp = () => {
 	<div class="cn_auth">
 		<div class="cn_title">Sign Up</div>
 		<form class="cn_form" @submit.prevent="handleSubmit">
-			<AuthInput v-model="form.name" label="Name" :is-valid="form.isValidName" @update:value="form.name = $event" />	
-			<AuthInput v-model="form.email" label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
-			<AuthInput v-model="form.password" label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
-			<AuthInput v-model="form.repeatPassword" label="Repeat Password" :is-valid="form.isValidRepeatPassword" @update:value="form.repeatPassword = $event" />
+			<AuthInput label="Name" :is-valid="form.isValidName" @update:value="form.name = $event" />	
+			<AuthInput label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
+			<AuthInput label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
+			<AuthInput label="Repeat Password" :is-valid="form.isValidRepeatPassword" @update:value="form.repeatPassword = $event" />
 			<CustomButton label="Sign Up" :disabled="!form.isFormValid" :is-loading="form.isLoading" />
 			<hr class="cn_divider">
 			<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignUp" />

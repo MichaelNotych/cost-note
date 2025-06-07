@@ -68,8 +68,8 @@ const handleGoogleSignIn = () => {
 	<div class="cn_auth">
 		<div class="cn_title">Sign In</div>
 		<form class="cn_form" @submit.prevent="handleSubmit">
-			<AuthInput v-model="form.email" label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
-			<AuthInput v-model="form.password" label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
+			<AuthInput label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
+			<AuthInput label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
 			<CustomButton label="Sign In" :disabled="!form.isFormValid" />
 			<hr class="cn_divider">
 			<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignIn" />
