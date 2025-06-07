@@ -21,10 +21,10 @@ export default defineNuxtConfig({
 	},
 	experimental: {
 		defaults: {
-		  nuxtLink: {
-			// default values
-			activeClass: 'cn-link_active',
-		  }
-		}
-	  }
+			nuxtLink: {
+				// default values
+				activeClass: 'cn-link_active',
+			},
+		},
+	},
 });
