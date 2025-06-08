@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AuthInput from '~/components/AuthInput.vue';
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
 
 definePageMeta({ layout: 'auth' });
