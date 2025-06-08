@@ -53,7 +53,7 @@ const addExpense = async () => {
 		<div class="cn-title cn-title_sm">Total today spent</div>
 		<div class="cn-panel__money">
 			<div class="cn-panel__currency">
-				{{ DEFAULT_CURRENCY }}
+				{{ getCurrencySymbolFromCode(DEFAULT_CURRENCY) }}
 			</div>
 			<div class="cn-panel__amount">
 				{{ dailyExpenses }}
