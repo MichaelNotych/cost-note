@@ -8,12 +8,17 @@ const props = defineProps({
 		type: Function,
 		required: true,
 	},
+	value: {
+		type: String,
+		required: false,
+		default: '',
+	},
 });
 
 const emit = defineEmits(['update:value']);
 
 const input = reactive({
-	value: '',
+	value: props.value,
 	isTouched: false,
 	isInputEmpty: computed((): boolean => input.value === ''),
 	validation: computed((): { isValid: boolean, error: string } => props.isValid(input.value)),
