@@ -5,6 +5,7 @@ export default defineNuxtConfig({
 	modules: ['@nuxt/eslint', 'nuxt-auth-utils', 'nuxt-cron'],
 	app: {
 		head: {
+			title: 'Cost Note',
 			link: [
 				{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
 				{

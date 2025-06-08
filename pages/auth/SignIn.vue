@@ -3,6 +3,9 @@ import CustomInput from '~/components/CustomInput.vue';
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
 const { fetch: fetchUserSession } = useUserSession();
 
+useHead({
+	title: 'Sign In',
+});
 definePageMeta({ layout: 'auth' });
 
 const form = reactive({

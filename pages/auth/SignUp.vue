@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
 
+useHead({
+	title: 'Sign Up',
+});
 definePageMeta({ layout: 'auth' });
 
 const { fetch: fetchUserSession } = useUserSession();

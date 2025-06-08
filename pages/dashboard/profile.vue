@@ -1,4 +1,7 @@
 <script setup lang="ts">
+useHead({
+	title: 'Profile',
+});
 definePageMeta({
 	layout: 'dashboard',
 	middleware: 'auth',
