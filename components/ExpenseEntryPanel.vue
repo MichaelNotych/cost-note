@@ -31,7 +31,7 @@ const form = reactive({
 })
 
 const fetchExpenses = async () => {
-	const response: IExpense[] = await $fetch('/api/expenses');
+	const response: IExpense[] = await $fetch('/api/expenses?scope=today');
 	expenses.value = response;
 }
 
