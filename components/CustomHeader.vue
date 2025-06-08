@@ -9,8 +9,8 @@ const { user } = useUserSession();
 		</NuxtLink>
 		<nav v-if="user" class="cn-nav">
 			<NuxtLink to="/dashboard" class="cn-link">Dashboard</NuxtLink>
-			<NuxtLink to="/logs" class="cn-link">Logs</NuxtLink>
-			<NuxtLink to="/settings" class="cn-link">Settings</NuxtLink>
+			<NuxtLink to="/dashboard/logs" class="cn-link">Logs</NuxtLink>
+			<NuxtLink to="/dashboard/settings" class="cn-link">Settings</NuxtLink>
 		</nav>
 		<div v-if="!user" class="cn-auth">
 			<NuxtLink to="/auth/signin" class="cn-link cn-link_secondary">Sign in</NuxtLink>
