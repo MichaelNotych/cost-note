@@ -39,8 +39,8 @@ const handleSave = async () => {
 		<div class="cn-profile">
 			<div class="cn-title">Profile</div>
 			<form class="cn-profile__form" @submit.prevent="handleSave">
-				<AuthInput label="Name" :is-valid="infoForm.isValidName" :value="infoForm.name" @update:value="infoForm.name = $event" />
-				<AuthInput label="Email" :is-valid="infoForm.isValidEmail" :value="infoForm.email" @update:value="infoForm.email = $event" />
+				<CustomInput id="name" v-model="infoForm.name" label="Name" :is-valid="infoForm.isValidName" />
+				<CustomInput id="email" v-model="infoForm.email" label="Email" :is-valid="infoForm.isValidEmail" />
 				<CustomButton label="Save" :disabled="!infoForm.isFormValid" />
 			</form>
 		</div>

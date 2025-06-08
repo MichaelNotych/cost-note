@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthInput from '~/components/AuthInput.vue';
+import CustomInput from '~/components/CustomInput.vue';
 import IconGoogleLogo from '~/components/icons/IconGoogleLogo.vue';
 const { fetch: fetchUserSession } = useUserSession();
 
@@ -68,8 +68,8 @@ const handleGoogleSignIn = () => {
 	<div class="cn_auth">
 		<div class="cn_title">Sign In</div>
 		<form class="cn_form" @submit.prevent="handleSubmit">
-			<AuthInput label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
-			<AuthInput label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
+			<CustomInput id="email" v-model="form.email" label="Email" :is-valid="form.isValidEmail" />	
+			<CustomInput id="password" v-model="form.password" label="Password" :is-valid="form.isValidPassword" />
 			<CustomButton label="Sign In" :disabled="!form.isFormValid" />
 			<hr class="cn_divider">
 			<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignIn" />

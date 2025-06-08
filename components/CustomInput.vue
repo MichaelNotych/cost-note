@@ -1,49 +1,51 @@
 <script setup lang="ts">
 const props = defineProps({
-	label: {
+	id: {
 		type: String,
 		required: true,
+	},
+	label: {
+		type: String,
+		required: false,
+		default: 'Defult label',
 	},
 	isValid: {
 		type: Function,
 		required: true,
 	},
-	value: {
-		type: String,
-		required: false,
-		default: '',
-	},
 });
-
-const emit = defineEmits(['update:value']);
+const inputValue = defineModel<string>();
 
 const input = reactive({
-	value: props.value,
 	isTouched: false,
-	isInputEmpty: computed((): boolean => input.value === ''),
-	validation: computed((): { isValid: boolean, error: string } => props.isValid(input.value)),
-});
-
-watch(() => input.value, (newVal) => {
-	emit('update:value', newVal);
+	isInputEmpty: computed((): boolean => inputValue.value === ''),
+	validation: computed((): { isValid: boolean, error: string } => props.isValid(inputValue.value)),
 });
 </script>
+
 <template>
-	<div class="cn_input">
-		<input v-model="input.value" class="cn_input__input" :class="{ 'cn_input__input--empty': input.isInputEmpty }" @blur="input.isTouched = true">
-		<label class="cn_input__label">{{ label }}</label>
-		<span v-if="!input.validation.isValid && input.validation.error && input.isTouched" class="cn_input__warning">{{ input.validation.error }}</span>
+	<div class="input">
+		<input
+			:id="id"
+			:value="inputValue"
+			class="input__input"
+			:class="{ 'input__input--empty': input.isInputEmpty }"
+			@input="inputValue = ($event.target as HTMLInputElement).value"
+			@blur="input.isTouched = true"
+		>
+		<label class="input__label" :for="id">{{ label }}</label>
+		<small v-if="!input.validation.isValid && input.validation.error && input.isTouched" class="input__warning">{{ input.validation.error }}</small>
 	</div>
 </template>
 <style scoped>
-.cn_input {
+.input {
 	display: flex;
 	flex-direction: column;
     gap: 0.125rem;
     position: relative;
 	width: 100%;
 }
-.cn_input__label {
+.input__label {
 	font-family: inherit;
     position: absolute;
     top: 1rem;
@@ -53,7 +55,7 @@ watch(() => input.value, (newVal) => {
 	pointer-events: none;
 	transition: all 0.2s ease-in-out;
 }
-.cn_input__input {
+.input__input {
 	font: inherit;
     padding: 1rem;
 	border: 1px solid var(--stroke-color);
@@ -62,25 +64,25 @@ watch(() => input.value, (newVal) => {
 	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
 
-.cn_input__input:hover {
+.input__input:hover {
 	border-color: var(--accent-color);
 }
 
-.cn_input__input:focus + .cn_input__label,
-.cn_input__input:not(.cn_input__input--empty) + .cn_input__label {
+.input__input:focus + .input__label,
+.input__input:not(.input__input--empty) + .input__label {
 	top: -13px;
 	font-size: 14px;
 	padding: 2px 5px;
 	background-color: var(--primary-background);
 }
 
-.cn_input__input:focus,
-.cn_input__input:not(.cn_input__input--empty) {
+.input__input:focus,
+.input__input:not(.input__input--empty) {
 	background-color: var(--primary-background);
 	border-color: var(--accent-color);
 }
 
-.cn_input__warning {
+.input__warning {
 	font-size: 14px;
 	color: red;
 }

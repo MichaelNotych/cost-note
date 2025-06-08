@@ -83,10 +83,10 @@ const handleGoogleSignUp = () => {
 	<div class="cn_auth">
 		<div class="cn_title">Sign Up</div>
 		<form class="cn_form" @submit.prevent="handleSubmit">
-			<AuthInput label="Name" :is-valid="form.isValidName" @update:value="form.name = $event" />	
-			<AuthInput label="Email" :is-valid="form.isValidEmail" @update:value="form.email = $event" />	
-			<AuthInput label="Password" :is-valid="form.isValidPassword" @update:value="form.password = $event" />
-			<AuthInput label="Repeat Password" :is-valid="form.isValidRepeatPassword" @update:value="form.repeatPassword = $event" />
+			<CustomInput id="name" v-model="form.name" label="Name" :is-valid="form.isValidName" />	
+			<CustomInput id="email" v-model="form.email" label="Email" :is-valid="form.isValidEmail" />	
+			<CustomInput id="password" v-model="form.password" label="Password" :is-valid="form.isValidPassword" />
+			<CustomInput id="repeat-password" v-model="form.repeatPassword" label="Repeat Password" :is-valid="form.isValidRepeatPassword" />
 			<CustomButton label="Sign Up" :disabled="!form.isFormValid" :is-loading="form.isLoading" />
 			<hr class="cn_divider">
 			<CustomButton label="Google" :icon="IconGoogleLogo" type="button" variant="secondary" @click="handleGoogleSignUp" />
