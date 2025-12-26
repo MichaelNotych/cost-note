@@ -24,7 +24,7 @@ export const convertCurrency = async (amount: number, from: string, to: string =
 
         if (!rateDoc || !rateDoc.rates) {
             console.warn('No rates available, returning original amount')
-            return { amount, currency: from }
+            return null
         }
 
         // 3. Convert
@@ -38,7 +38,7 @@ export const convertCurrency = async (amount: number, from: string, to: string =
 
         if (!fromRate || !toRate) {
             console.warn(`Rate not found for ${from} or ${to}`)
-            return { amount, currency: from }
+            return null
         }
 
         const convertedAmount = (amount / fromRate) * toRate
@@ -50,6 +50,6 @@ export const convertCurrency = async (amount: number, from: string, to: string =
 
     } catch (e) {
         console.error('Currency conversion error:', e)
-        return { amount, currency: from }
+        return null
     }
 }

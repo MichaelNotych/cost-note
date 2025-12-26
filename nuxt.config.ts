@@ -16,7 +16,7 @@ export default defineNuxtConfig({
         exchangeRateApiKey: process.env.EXCHANGE_RATE_API_KEY,
     },
 
-    modules: ["nuxt-auth-utils", "shadcn-nuxt"],
+    modules: ["nuxt-auth-utils", "shadcn-nuxt", "@pinia/nuxt"],
     shadcn: {
         /**
          * Prefix for all the imported component.

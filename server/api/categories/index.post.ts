@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
 
     // Find or create category
     let category = await Category.findOne({
-        name: { $regex: new RegExp(`^${body.name}$`, "i") },
+        name: { $regex: body.name, $options: "i" },
         user: user.id
     });
 

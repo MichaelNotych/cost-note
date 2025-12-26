@@ -1,6 +1,24 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, Types, HydratedDocument } from 'mongoose'
 
-const ExpenseSchema = new Schema({
+export interface IExpense {
+    title?: string | null
+    amount?: number | null
+    currency?: string | null
+    category?: Types.ObjectId | null
+    date: Date
+    userDescription: string
+    user: Types.ObjectId
+    defaultCurrency?: {
+        amount: number
+        currency: string
+    } | null
+    createdAt: Date
+    updatedAt: Date
+}
+
+export type ExpenseDocument = HydratedDocument<IExpense>
+
+const ExpenseSchema = new Schema<IExpense>({
     title: { type: String, required: false },
     amount: { type: Number, required: false },
     currency: { type: String, required: false },
@@ -14,4 +32,4 @@ const ExpenseSchema = new Schema({
     }
 }, { timestamps: true })
 
-export const Expense = model('Expense', ExpenseSchema)
+export const Expense = model<IExpense>('Expense', ExpenseSchema)
