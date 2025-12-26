@@ -10,7 +10,13 @@ export default defineNuxtConfig({
         plugins: [tailwindcss()],
     },
 
-    modules: ["shadcn-nuxt"],
+    runtimeConfig: {
+        mongoUri: process.env.MONGO_URI,
+        googleApiKey: process.env.GOOGLE_API_KEY,
+        exchangeRateApiKey: process.env.EXCHANGE_RATE_API_KEY,
+    },
+
+    modules: ["nuxt-auth-utils", "shadcn-nuxt"],
     shadcn: {
         /**
          * Prefix for all the imported component.
