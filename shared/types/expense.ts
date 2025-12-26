@@ -1,9 +1,13 @@
-export default interface Expense {
+export interface Expense {
     _id: string;
     title?: string;
     amount?: number;
     currency?: string;
-    category?: string;
+    category?: {
+        _id: string;
+        name: string;
+        icon: string;
+    };
     date?: string;
     userDescription: string;
     user: string;

@@ -6,7 +6,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getCurrencySymbolFromCode (code: string) {
+export function getCurrencySymbolFromCode (code: string | undefined) {
+	if (!code) return '';
 	const currencySymbols: Record<string, string> = {
 		AED: 'د.إ',
 		AFN: '؋',
