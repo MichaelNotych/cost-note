@@ -2,7 +2,7 @@
 import { getCurrencySymbolFromCode } from "~/lib/utils";
 
 defineProps<{
-    expense: any;
+    expense: Expense;
 }>();
 </script>
 

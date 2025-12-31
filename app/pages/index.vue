@@ -34,7 +34,6 @@ const addExpense = async () => {
         <div
             v-for="[date, expenses] of expensesStore.getExpensesByDate"
             :key="date"
-            class=""
         >
             <div class="text-sm flex justify-between border-b py-2">
                 <div>{{ date }}</div>
