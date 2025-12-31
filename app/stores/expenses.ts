@@ -7,22 +7,21 @@ export const useExpensesStore = defineStore("expenses", {
     }),
     getters: {
         getExpensesByDate(state) {
-            const expensesByDate: Record<string, Expense[]> = {};
+            const expensesByDate: Record<string, { defaultCurrencyTotal: number; expenses: Expense[] }> = {};
             state.expenses.forEach((expense: Expense) => {
                 if (!expense.createdAt) return;
                 const createdAt = new Date(expense.createdAt);
-                const key = `${createdAt.getDate()}/${
-                    createdAt.getMonth() + 1
-                }/${createdAt.getFullYear()}`;
-                if (!expensesByDate[key]) expensesByDate[key] = [];
-                expensesByDate[key] = [...expensesByDate[key], expense];
+                const key =
+                    createdAt.getTime().toString().slice(0, 6) + "0000000";
+                if (!expensesByDate[key]) expensesByDate[key] = {
+                    defaultCurrencyTotal: 0,
+                    expenses: [],
+                };
+                expensesByDate[key].expenses.push(expense);
+                expensesByDate[key].defaultCurrencyTotal += expense.defaultCurrency?.amount || 0;
             });
             return Object.entries(expensesByDate).sort((a, b) => {
-                const [dayA, monthA, yearA] = a[0].split('/').map(Number) as [number, number, number];
-                const [dayB, monthB, yearB] = b[0].split('/').map(Number) as [number, number, number];
-                const dateA = new Date(yearA, monthA - 1, dayA);
-                const dateB = new Date(yearB, monthB - 1, dayB);
-                return dateB.getTime() - dateA.getTime();
+                return parseInt(b[0]) - parseInt(a[0]);
             });
         },
     },
@@ -41,15 +40,20 @@ export const useExpensesStore = defineStore("expenses", {
                     },
                 });
                 if (response.success) {
-                    this.expenses.push(response.data.expense);
+                    this.expenses.unshift(response.data.expense);
                 } else {
-                    throw new Error(response.message)
+                    throw new Error(response.message);
                 }
             } catch (error: any) {
                 toast("Error during expense adding", {
                     description: error.message,
                 });
             }
+        },
+        calculateTotalDailyExpenses(expenses: Expense[]) {
+            return expenses.reduce((total, expense) => {
+                return total + (expense.amount || 0);
+            }, 0);
         },
     },
 });

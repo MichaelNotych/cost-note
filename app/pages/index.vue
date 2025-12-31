@@ -9,10 +9,12 @@ definePageMeta({
 
 const expensesStore = useExpensesStore();
 const addingExpense = ref(false);
+const loadingExpenses = ref(true);
 const cost = ref("");
 
 onMounted(async () => {
     await expensesStore.fetchExpenses();
+    loadingExpenses.value = false;
 });
 
 const addExpense = async () => {
@@ -21,37 +23,35 @@ const addExpense = async () => {
         await expensesStore.addExpense(cost.value);
         cost.value = "";
     } catch (error: any) {
-        toast('Error during expense adding', {
-        description: error.message,
-      })
+        toast("Error during expense adding", {
+            description: error.message,
+        });
     } finally {
         addingExpense.value = false;
     }
 };
 </script>
 <template>
-    <div class="space-y-4 pb-25">
+    <div v-if="loadingExpenses" class="flex justify-center items-center flex-col gap-4 h-screen opacity-50">
+        <Spinner class="size-8"/>
+        Loading expenses...
+    </div>
+    <div v-else class="space-y-4 pb-25">
         <div
-            v-for="[date, expenses] of expensesStore.getExpensesByDate"
+            v-for="[
+                date,
+                { expenses, defaultCurrencyTotal },
+            ] of expensesStore.getExpensesByDate"
             :key="date"
         >
             <div class="text-sm flex justify-between border-b py-2">
-                <div>{{ date }}</div>
+                <div>{{ new Date(parseInt(date)).toLocaleDateString() }}</div>
                 <div v-if="expenses.length > 0">
                     {{
                         getCurrencySymbolFromCode(
                             expenses[0]?.defaultCurrency?.currency
                         )
-                    }}{{
-                        expenses
-                            .reduce(
-                                (acc, expense) =>
-                                    acc +
-                                    (expense.defaultCurrency?.amount || 0),
-                                0
-                            )
-                            .toFixed(2)
-                    }}
+                    }}{{ defaultCurrencyTotal.toFixed(2) }}
                 </div>
             </div>
             <Expense
@@ -70,6 +70,11 @@ const addExpense = async () => {
             :model-value="cost"
             @update:model-value="(value) => (cost = value.toString())"
         />
-        <Button type="submit" :disabled="!cost.length || addingExpense" :loading="addingExpense">Add</Button>
+        <Button
+            type="submit"
+            :disabled="!cost.length || addingExpense"
+            :loading="addingExpense"
+            >Add</Button
+        >
     </form>
 </template>
