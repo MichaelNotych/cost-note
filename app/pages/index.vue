@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { getCurrencySymbolFromCode } from "~/lib/utils";
+import { Expense } from "~/components/ui/expense";
+import { toast } from "vue-sonner";
 
 definePageMeta({
     middleware: "auth",
 });
 
 const expensesStore = useExpensesStore();
+const addingExpense = ref(false);
 const cost = ref("");
 
 onMounted(async () => {
@@ -13,18 +16,28 @@ onMounted(async () => {
 });
 
 const addExpense = async () => {
-    await expensesStore.addExpense(cost.value);
-    cost.value = "";
+    try {
+        addingExpense.value = true;
+        await expensesStore.addExpense(cost.value);
+        cost.value = "";
+    } catch (error: any) {
+        toast('Error during expense adding', {
+        description: error.message,
+      })
+    } finally {
+        addingExpense.value = false;
+    }
 };
 </script>
 <template>
-    <div class="space-y-4">
+    <div class="space-y-4 pb-25">
         <div
-            v-for="(expenses, key) of expensesStore.getExpensesByDate"
+            v-for="[date, expenses] of expensesStore.getExpensesByDate"
+            :key="date"
             class=""
         >
             <div class="text-sm flex justify-between border-b py-2">
-                <div>{{ key }}</div>
+                <div>{{ date }}</div>
                 <div v-if="expenses.length > 0">
                     {{
                         getCurrencySymbolFromCode(
@@ -42,36 +55,11 @@ const addExpense = async () => {
                     }}
                 </div>
             </div>
-            <div
+            <Expense
                 v-for="expense in expenses"
                 :key="expense._id"
-                class="py-2 border-b border-border/50 last:border-0"
-            >
-                <div class="flex items-center justify-between">
-                    <span class="font-medium">{{
-                        expense.title || "Untitled"
-                    }}</span>
-                    <span class="font-semibold">
-                        {{ getCurrencySymbolFromCode(expense.currency)
-                        }}{{ expense.amount?.toFixed(2) }}
-                    </span>
-                </div>
-                <div
-                    class="flex items-center justify-between text-xs text-muted-foreground mt-0.5"
-                >
-                    <span
-                        >{{ expense.category?.icon || "-" }}
-                        {{ expense.category?.name || "Uncategorized" }}</span
-                    >
-                    <span v-if="expense.defaultCurrency">
-                        {{
-                            getCurrencySymbolFromCode(
-                                expense.defaultCurrency.currency
-                            )
-                        }}{{ expense.defaultCurrency.amount.toFixed(2) }}
-                    </span>
-                </div>
-            </div>
+                :expense="expense"
+            />
         </div>
     </div>
     <form
@@ -83,6 +71,6 @@ const addExpense = async () => {
             :model-value="cost"
             @update:model-value="(value) => (cost = value.toString())"
         />
-        <Button type="submit" :disabled="!cost.length">Add</Button>
+        <Button type="submit" :disabled="!cost.length || addingExpense" :loading="addingExpense">Add</Button>
     </form>
 </template>

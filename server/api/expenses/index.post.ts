@@ -24,6 +24,13 @@ export default defineEventHandler(async (event) => {
         });
     }
 
+    if (!parsedData.amount || !parsedData.currency) {
+        throw createError({
+            statusCode: 500,
+            statusMessage: "No amount or currency provided",
+        });
+    }
+
     // Category Logic
     let categoryId = null;
     let category = null;
@@ -62,5 +69,12 @@ export default defineEventHandler(async (event) => {
     });
     await expense.save();
 
-    return expense.populate('category');
+    const populatedExpense = await expense.populate('category');
+
+    return {
+        success: true,
+        data: {
+            expense: populatedExpense
+        }
+    }
 });
