@@ -50,6 +50,19 @@ export const useExpensesStore = defineStore("expenses", {
                 });
             }
         },
+        async updateCategory(id: string, data: { name: string; icon?: string }) {
+            try {
+                await $fetch(`/api/categories/${id}`, {
+                    method: "PUT",
+                    body: data,
+                });
+                await this.fetchExpenses();
+            } catch (error: any) {
+                toast("Error updating category", {
+                    description: error.message,
+                });
+            }
+        },
         calculateTotalDailyExpenses(expenses: Expense[]) {
             return expenses.reduce((total, expense) => {
                 return total + (expense.amount || 0);

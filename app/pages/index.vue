@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { getCurrencySymbolFromCode } from "~/lib/utils";
-import { Expense } from "~/components/ui/expense";
 import { toast } from "vue-sonner";
 
 definePageMeta({
@@ -8,27 +7,26 @@ definePageMeta({
 });
 
 const expensesStore = useExpensesStore();
-const addingExpense = ref(false);
 const loadingExpenses = ref(true);
-const cost = ref("");
 
 onMounted(async () => {
     await expensesStore.fetchExpenses();
     loadingExpenses.value = false;
 });
 
-const addExpense = async () => {
-    try {
-        addingExpense.value = true;
-        await expensesStore.addExpense(cost.value);
-        cost.value = "";
-    } catch (error: any) {
-        toast("Error during expense adding", {
-            description: error.message,
-        });
-    } finally {
-        addingExpense.value = false;
-    }
+const editingCategory = ref<Category | null>(null);
+const isEditCategoryOpen = ref(false);
+
+const openEditCategory = (category: Category) => {
+    if (!category) return;
+    editingCategory.value = category;
+    isEditCategoryOpen.value = true;
+};
+
+const handleSaveCategory = async (data: { name: string; icon: string }) => {
+    if (!editingCategory.value) return;
+    await expensesStore.updateCategory(editingCategory.value._id, data);
+    toast.success("Category updated");
 };
 </script>
 <template>
@@ -58,23 +56,16 @@ const addExpense = async () => {
                 v-for="expense in expenses"
                 :key="expense._id"
                 :expense="expense"
+                @edit-category="openEditCategory"
             />
         </div>
     </div>
-    <form
-        @submit.prevent="addExpense"
-        class="mt-auto w-full p-4 flex gap-2 fixed bottom-0 left-0 bg-background border-t"
-    >
-        <Input
-            placeholder="Enter cost..."
-            :model-value="cost"
-            @update:model-value="(value) => (cost = value.toString())"
-        />
-        <Button
-            type="submit"
-            :disabled="!cost.length || addingExpense"
-            :loading="addingExpense"
-            >Add</Button
-        >
-    </form>
+    <AddExpenseForm />
+    <CategoryEditDialog
+        :open="isEditCategoryOpen"
+        @update:open="isEditCategoryOpen = $event"
+        :category="editingCategory"
+        @save="handleSaveCategory"
+        v-if="editingCategory"
+    />
 </template>
