@@ -39,4 +39,10 @@ export default defineNuxtConfig({
          */
         componentDir: "@/components/ui",
     },
+    ssr: true, // This ensures full SSR and includes server routes
+
+    // Optional but recommended for Nitro server deployments
+    nitro: {
+        preset: "node-server", // Ensures full Node server output, not static
+    },
 });
