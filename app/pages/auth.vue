@@ -25,7 +25,7 @@ const form = useForm({
 
 const onSubmit = form.handleSubmit(async (values) => {
     console.log("Form submitted!", values, isNewUser.value);
-    const endpoint = isNewUser.value ? '/api/signup' : '/api/auth/signin';
+    const endpoint = isNewUser.value ? '/api/auth/signup' : '/api/auth/signin';
     try {
         await $fetch(endpoint, {
             method: "POST",
