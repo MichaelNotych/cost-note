@@ -1,7 +1,0 @@
-[deploy]
-start = "node .output/server/index.mjs"
-
-[[proxy]]
-path = "/"
-to = "http://localhost:3000/"
-strip_path = false
